@@ -1,18 +1,18 @@
-package chat
+package judge
 
 import (
 	"PawelK2012/go-chat/src/repository"
 	"fmt"
 )
 
-type Chat struct {
+type Judge struct {
 	repository *repository.Repository
 }
 
-func New(repository *repository.Repository) *Chat {
-	chat := &Chat{
+func New(repository *repository.Repository) *Judge {
+	judge := &Judge{
 		repository: repository,
 	}
 	fmt.Println("initialising chat service")
-	return chat
+	return judge
 }
