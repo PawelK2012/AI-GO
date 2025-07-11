@@ -7,7 +7,7 @@ import (
 
 // Judge is a service that takes a user task and sends it to multiple large language models (LLMs) to compare and evaluate their responses.
 //
-//	The goal is to improve the overall quality and reliability of LLM-generated output
+// The goal is to improve the overall quality and reliability of LLM-generated output
 func (ch *Judge) JudgeLLMResult() {
 	ctx := context.Background()
 	var competitors []string
