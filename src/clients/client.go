@@ -1,7 +1,11 @@
 package clients
 
-import "github.com/openai/openai-go"
+import (
+	"context"
+
+	"github.com/openai/openai-go"
+)
 
 type ClientInterface interface {
-	Ask(q string) (*openai.ChatCompletion, error)
+	Ask(ctx context.Context, q, model string) (*openai.ChatCompletion, error)
 }
