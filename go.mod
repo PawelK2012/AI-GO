@@ -2,10 +2,7 @@ module PawelK2012/go-chat
 
 go 1.22.0
 
-require (
-	github.com/dslipak/pdf v0.0.2
-	github.com/openai/openai-go v1.8.2
-)
+require github.com/openai/openai-go v1.8.2
 
 require (
 	github.com/tidwall/gjson v1.14.4 // indirect
