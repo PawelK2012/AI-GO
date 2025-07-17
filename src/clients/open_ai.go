@@ -6,6 +6,7 @@ import (
 
 	"github.com/openai/openai-go"
 	"github.com/openai/openai-go/option"
+	"github.com/openai/openai-go/responses"
 )
 
 type OAIClient struct {
@@ -23,7 +24,8 @@ func NewOAIClient() ClientInterface {
 	}
 }
 
-func (c *OAIClient) Ask(ctx context.Context, q, model string) (*openai.ChatCompletion, error) {
+// wrapper for OpenAI client .Completions.New()
+func (c *OAIClient) CompletionsNew(ctx context.Context, q, model string) (*openai.ChatCompletion, error) {
 
 	param := openai.ChatCompletionNewParams{
 		Messages: []openai.ChatCompletionMessageParamUnion{
@@ -35,8 +37,30 @@ func (c *OAIClient) Ask(ctx context.Context, q, model string) (*openai.ChatCompl
 
 	completion, err := c.oai_client.Chat.Completions.New(context.TODO(), param)
 	if err != nil {
-		fmt.Print("completion failed \n", err.Error())
+		_, e := fmt.Print("completion failed:", err.Error())
+		return nil, e
 	}
 
-	return completion, err
+	return completion, nil
+}
+
+// wrapper for OpenAI client .Responses.New()
+// currently Ollam is not supporting OpenAI Responses API https://github.com/ollama/ollama/issues/9659
+func (c *OAIClient) ResponsesNew(ctx context.Context, q, model string) (*responses.Response, error) {
+	params := responses.ResponseNewParams{
+		Model:           model,
+		Temperature:     openai.Float(0.7),
+		MaxOutputTokens: openai.Int(512),
+		Input: responses.ResponseNewParamsInputUnion{
+			OfString: openai.String(q),
+		},
+	}
+
+	resp, err := c.oai_client.Responses.New(ctx, params)
+	if err != nil {
+		_, e := fmt.Print("responses failed:", err.Error())
+		return nil, e
+	}
+	return resp, nil
+
 }

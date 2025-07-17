@@ -4,8 +4,10 @@ import (
 	"context"
 
 	"github.com/openai/openai-go"
+	"github.com/openai/openai-go/responses"
 )
 
 type ClientInterface interface {
-	Ask(ctx context.Context, q, model string) (*openai.ChatCompletion, error)
+	CompletionsNew(ctx context.Context, q, model string) (*openai.ChatCompletion, error)
+	ResponsesNew(ctx context.Context, q, model string) (*responses.Response, error)
 }

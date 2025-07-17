@@ -20,7 +20,7 @@ func (ch *Judge) JudgeLLMResult() {
 	fmt.Printf("question1: %s\n", q)
 
 	for i, comp := range competitors {
-		answer, err := ch.repository.OAI.Ask(ctx, q, comp)
+		answer, err := ch.repository.OAI.CompletionsNew(ctx, q, comp)
 
 		if err != nil {
 			fmt.Println(err.Error())
@@ -43,7 +43,7 @@ func (ch *Judge) Judge(ctx context.Context, ans, competitors []string, question 
 
 	println("judge\n", judge)
 	fmt.Print("================================ \n")
-	answer, err := ch.repository.OAI.Ask(ctx, judge, "llama3.2")
+	answer, err := ch.repository.OAI.CompletionsNew(ctx, judge, "llama3.2")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
