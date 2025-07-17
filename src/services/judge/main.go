@@ -13,6 +13,6 @@ func New(repository *repository.Repository) *Judge {
 	judge := &Judge{
 		repository: repository,
 	}
-	fmt.Println("initialising chat service")
+	fmt.Println("initialising judge service")
 	return judge
 }
