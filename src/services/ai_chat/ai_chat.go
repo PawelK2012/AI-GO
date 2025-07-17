@@ -1,6 +1,7 @@
 package aichat
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -8,8 +9,9 @@ import (
 
 func (c *AIChat) StartChat() {
 	fmt.Print("starting chat...")
+	ctx := context.Background()
 
-	//ovveride with youe name
+	//override with youe name
 	name := "Pawel Kaim"
 
 	// reading files content
@@ -29,6 +31,15 @@ func (c *AIChat) StartChat() {
 
 	fmt.Print(system_prompr.String())
 
+	// currently Ollam is not supporting OpenAI Responses API https://github.com/ollama/ollama/issues/9659
+	//r, err := c.repository.OAI.ResponsesNew(ctx, system_prompr.String(), "llama3.2")
+	r, err := c.repository.OAI.CompletionsNew(ctx, system_prompr.String(), "llama3.2")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	fmt.Print("====== RESPONSE ====")
+	fmt.Print(r)
 }
 
 func getFileData(p string) string {
