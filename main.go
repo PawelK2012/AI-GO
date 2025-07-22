@@ -43,9 +43,6 @@ func main() {
 			Message: r.FormValue("message"),
 		}
 
-		// do something with details
-		_ = details
-
 		fmt.Printf("message = %s", details.Message)
 
 		// tmpl.Execute(w, struct{ Success bool }{true})
