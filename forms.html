@@ -1,0 +1,10 @@
+{{if .Resp}}
+    <h1>Thanks for your message! {{.Resp}}</h1>
+{{else}}
+{{end}}
+    <h1>Contact</h1>
+    <form method="POST">
+        <label>Message:</label><br />
+        <textarea name="message"></textarea><br />
+        <input type="submit">
+    </form>

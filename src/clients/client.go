@@ -8,6 +8,7 @@ import (
 )
 
 type ClientInterface interface {
-	CompletionsNew(ctx context.Context, q, model string) (*openai.ChatCompletion, error)
+	CompletionsNew(ctx context.Context, q, system_prompt, model string) (*openai.ChatCompletion, error)
 	ResponsesNew(ctx context.Context, q, model string) (*responses.Response, error)
+	StreamingNew(ctx context.Context, sysprompt, question string, tools []openai.ChatCompletionToolParam)
 }
