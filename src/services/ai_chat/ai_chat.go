@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func (c *AIChat) StartChat() {
+func (c *AIChat) AskQuestion(user_question string) (string, error) {
 	fmt.Print("starting chat...")
 	ctx := context.Background()
 
@@ -29,17 +29,19 @@ func (c *AIChat) StartChat() {
 	prompt_ctx := fmt.Sprintf("With this context, please chat with the user, always staying in character as %s.", name)
 	system_prompr.WriteString(prompt_ctx)
 
-	fmt.Print(system_prompr.String())
+	//fmt.Print(system_prompr.String())
 
 	// currently Ollam is not supporting OpenAI Responses API https://github.com/ollama/ollama/issues/9659
 	//r, err := c.repository.OAI.ResponsesNew(ctx, system_prompr.String(), "llama3.2")
-	r, err := c.repository.OAI.CompletionsNew(ctx, system_prompr.String(), "llama3.2")
+	r, err := c.repository.OAI.CompletionsNew(ctx, user_question, system_prompr.String(), "llama3.2")
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return "", err
 	}
-	fmt.Print("====== RESPONSE ====")
-	fmt.Print(r)
+	// fmt.Print("====== RESPONSE ====")
+	// fmt.Print(r.Choices[0].Message.Content)
+	return r.Choices[0].Message.Content, nil
+
 }
 
 func getFileData(p string) string {

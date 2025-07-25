@@ -4,13 +4,11 @@ import (
 	"PawelK2012/go-chat/src/repository"
 	aichat "PawelK2012/go-chat/src/services/ai_chat"
 	"fmt"
+	"html/template"
 	"net/http"
-	"text/template"
 )
 
-type ContactDetails struct {
-	Email   string
-	Subject string
+type UserInput struct {
 	Message string
 }
 
@@ -27,7 +25,6 @@ func main() {
 	// judge.JudgeLLMResult()
 
 	aichat := aichat.New(repository)
-	aichat.StartChat()
 
 	tmpl := template.Must(template.ParseFiles("forms.html"))
 
@@ -37,20 +34,18 @@ func main() {
 			return
 		}
 
-		details := ContactDetails{
-			Email:   r.FormValue("email"),
-			Subject: r.FormValue("subject"),
+		user_input := UserInput{
 			Message: r.FormValue("message"),
 		}
 
-		fmt.Printf("message = %s", details.Message)
+		fmt.Printf("message = %s", user_input.Message)
+		resp, _ := aichat.AskQuestion(user_input.Message)
 
-		// tmpl.Execute(w, struct{ Success bool }{true})
-
+		// LLM output is displayed in front end based on this struct
 		llmRsp := LLMResp{
 			Resp: "default resp",
 		}
-		llmRsp.Resp = "LLM Msg" + details.Email
+		llmRsp.Resp = resp
 		tmpl.Execute(w, llmRsp)
 
 	})
